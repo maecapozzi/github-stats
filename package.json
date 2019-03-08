@@ -10,7 +10,15 @@
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
     "react-scripts": "2.1.8",
-    "typescript": "3.3.3333"
+    "typescript": "3.3.3333",
+    "react-apollo": "^2.5.2",
+    "dotenv": "^6.2.0",
+    "graphql": "^14.1.1",
+    "graphql-tag": "^2.10.1",
+    "apollo-client": "^2.5.1",
+    "apollo-cache-inmemory": "^1.5.1",
+    "apollo-link-http": "^1.5.12",
+    "apollo-link-context": "^1.0.15"
   },
   "scripts": {
     "start": "react-scripts start",
