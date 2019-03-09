@@ -3,16 +3,17 @@ import gql from "graphql-tag";
 export const GET_ISSUES_AND_PULL_REQUESTS = gql`
   query Repository($owner: String!, $name: String!, $author: String!) {
     repository(owner: $owner, name: $name) {
-      pullRequests(last: 10, states: MERGED) {
+      pullRequests(last: 100, states: MERGED) {
         edges {
           node {
             title
             url
+            mergedAt
             mergeCommit {
               id
               message
             }
-            reviews(first: 0, author: $author) {
+            reviews(first: 10, author: $author) {
               edges {
                 node {
                   id
@@ -29,8 +30,7 @@ export const GET_ISSUES_AND_PULL_REQUESTS = gql`
           }
         }
       }
-
-      issues(last: 10, states: CLOSED) {
+      issues(last: 5, states: CLOSED) {
         edges {
           node {
             title
