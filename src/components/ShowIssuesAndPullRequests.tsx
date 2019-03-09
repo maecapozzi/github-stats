@@ -1,10 +1,12 @@
 import React from "react";
+import styled from "styled-components";
 import { Query } from "react-apollo";
 import { Fetching, Error } from "../data-fetching";
 import { GET_ISSUES_AND_PULL_REQUESTS } from "../queries";
 import { List } from ".";
 import { Grid } from ".";
 import { filterPullRequestsByDate } from "../transformers/filterPullRequestsByDate";
+import { Header, H1 } from "./Text";
 
 const DAYS_IN_THE_WEEK = 7;
 
@@ -19,7 +21,7 @@ export const ShowIssuesAndPullRequests: React.FunctionComponent<
 > = ({ owner, name, author }) => (
   <Query
     query={GET_ISSUES_AND_PULL_REQUESTS}
-    variables={{ owner: owner, name: "forge", author: "maecapozzi" }}
+    variables={{ owner: owner, name: name, author: author }}
   >
     {({ loading, error, data }) => {
       if (error) return <Error />;
@@ -33,25 +35,27 @@ export const ShowIssuesAndPullRequests: React.FunctionComponent<
       const issues = data.repository.issues.edges.reverse();
 
       return (
-        <Grid
-          column1={
-            <div>
-              <p>{`${
-                filteredPullRequests.length
-              } recently merged pull requests`}</p>
-              <List items={filteredPullRequests} />
-            </div>
-          }
-          column2={
-            <div>
-              <p>{`${
-                data.repository.issues.edges.length
-              } recently closed issues`}</p>
-              <List items={issues} />
-            </div>
-          }
-          column3={<div>Reviewer Leaderboard</div>}
-        />
+        <div>
+          <Grid
+            column1={
+              <div>
+                <Header>{`${
+                  filteredPullRequests.length
+                } pull requests in the last ${DAYS_IN_THE_WEEK} days 🚀`}</Header>
+                <List items={filteredPullRequests} />
+              </div>
+            }
+            column2={
+              <div>
+                <Header>{`${
+                  data.repository.issues.edges.length
+                } closed issues in the last ${DAYS_IN_THE_WEEK} days`}</Header>
+                <List items={issues} />
+              </div>
+            }
+            column3={<div>Reviewer Leaderboard</div>}
+          />
+        </div>
       );
     }}
   </Query>

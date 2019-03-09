@@ -7,6 +7,7 @@ export const GET_ISSUES_AND_PULL_REQUESTS = gql`
         edges {
           node {
             title
+            bodyHTML
             url
             mergedAt
             mergeCommit {

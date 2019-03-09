@@ -1,20 +1,48 @@
 import React from "react";
+import styled from "styled-components";
 import moment from "moment";
 import { getMergedAt } from "../transformers/filterPullRequestsByDate";
+import { Text } from "./Text";
+import { Button } from "./Button";
+import { useToggle } from "./hooks/useToggle";
+
+const StyledDate = styled(Text)`
+  font-size: 14px;
+  padding: 0 0 20px 0;
+`;
 
 type Message = {
-  message: string;
   mergedAt: string;
+  body?: string;
 };
 
+type ToggleProps = {
+  children: React.ReactNode;
+};
+
+function createMarkup(html: string) {
+  return { __html: html };
+}
+
 export const ShowCommits: React.FunctionComponent<Message> = ({
-  message,
-  mergedAt
+  mergedAt,
+  body
 }) => {
+  const [state, toggle] = useToggle("off");
+
   return (
     <div>
-      <p>Merged {moment(mergedAt, "YYYY-MM-DD").format("MMMM DD YYYY")}.</p>
-      <p>{message.split("#)")[0]}</p>
+      <StyledDate>
+        This PR was merged {moment(mergedAt).fromNow()} on{" "}
+        {moment(mergedAt, "YYYY-MM-DD").format("MMMM DD YYYY")}
+      </StyledDate>
+      <Button onClick={toggle}>{`${
+        state === "off" ? "Show" : "Hide"
+      } pull request body`}</Button>
+      <Text
+        style={{ display: `${state === "off" ? "none" : "inline"}` }}
+        dangerouslySetInnerHTML={createMarkup(body || "")}
+      />
     </div>
   );
 };

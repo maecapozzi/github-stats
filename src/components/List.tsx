@@ -1,5 +1,7 @@
 import React from "react";
 import { ShowCommits } from ".";
+import { Link, StyledList } from "./Text";
+import { Card } from "./Card";
 
 type ListProps = {
   items: {
@@ -16,32 +18,30 @@ type Item = {
     title: string;
     url: string;
     mergedAt: string;
-    mergeCommit?: {
-      message: string;
-    };
+    bodyHTML?: string;
   };
 };
 
 export const List: React.FunctionComponent<ListProps> = ({ items }) => {
   return (
-    <ul>
+    <>
       {items.map((item: Item) => {
         const { url, title } = item.node;
-
         return (
-          <li key={url}>
-            <div>
-              <a href={url}>{title}</a>
-              {item.node.mergeCommit ? (
+          <div key={url}>
+            <Card>
+              <Link href={url}>{title}</Link>
+
+              {item.node.mergedAt ? (
                 <ShowCommits
-                  message={item.node.mergeCommit.message}
                   mergedAt={item.node.mergedAt}
+                  body={item.node.bodyHTML}
                 />
               ) : null}
-            </div>
-          </li>
+            </Card>
+          </div>
         );
       })}
-    </ul>
+    </>
   );
 };

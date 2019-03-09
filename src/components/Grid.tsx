@@ -1,4 +1,5 @@
 import React from "react";
+import styled from "styled-components";
 import { Container, Row, Col } from "react-grid-system";
 
 interface Grid {
@@ -12,17 +13,17 @@ export const Grid: React.FunctionComponent<Grid> = ({
   column2,
   column3
 }) => (
-  <Container>
+  <Container fluid>
     <Row>
-      <Col sm={12} lg={4}>
+      <Col sm={12} lg={6}>
         {column1}
       </Col>
-      <Col sm={12} lg={4}>
+      <Col sm={12} lg={6}>
         {column2}
       </Col>
-      <Col sm={12} lg={4}>
+      {/* <Col sm={12} lg={4}>
         {column3}
-      </Col>
+      </Col> */}
     </Row>
   </Container>
 );
