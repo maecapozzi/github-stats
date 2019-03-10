@@ -12,7 +12,7 @@ const StyledDate = styled(Text)`
 `;
 
 type Message = {
-  mergedAt: string;
+  mergedAt?: string;
   body?: string;
 };
 
@@ -40,8 +40,13 @@ export const ShowCommits: React.FunctionComponent<Message> = ({
         state === "off" ? "Show" : "Hide"
       } details`}</Button>
       <Text
-        style={{ display: `${state === "off" ? "none" : "inline"}` }}
-        dangerouslySetInnerHTML={createMarkup(body || "")}
+        style={{
+          display: `${state === "off" ? "none" : "inline"}`,
+          color: "#0D1B2A"
+        }}
+        dangerouslySetInnerHTML={createMarkup(
+          body || "<div>Sorry, there was nothing there</div>"
+        )}
       />
     </div>
   );
