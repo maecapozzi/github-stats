@@ -12,7 +12,6 @@ export const GET_ISSUES_AND_PULL_REQUESTS = gql`
             mergedAt
             mergeCommit {
               id
-              message
             }
             reviews(first: 10, author: $author) {
               edges {

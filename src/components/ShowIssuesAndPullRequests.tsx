@@ -28,11 +28,11 @@ export const ShowIssuesAndPullRequests: React.FunctionComponent<
       if (loading || !data) return <Fetching />;
 
       const filteredPullRequests = filterPullRequestsByDate(
-        data.repository.pullRequests.edges.reverse(),
+        data.repository.pullRequests.edges,
         DAYS_IN_THE_WEEK
       );
 
-      const issues = data.repository.issues.edges.reverse();
+      const issues = data.repository.issues.edges;
 
       return (
         <div>

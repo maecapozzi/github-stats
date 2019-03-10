@@ -54,8 +54,8 @@ const Form = styled("form")`
 
 class Request extends React.Component {
   state = {
-    owner: "harrystech",
-    repoName: "forge"
+    owner: "",
+    repoName: ""
   };
 
   handleChange = (e: React.FormEvent<HTMLInputElement>): void => {
@@ -104,9 +104,14 @@ class Request extends React.Component {
                 <div>
                   <div>
                     <Header>
-                      Please supply the name of the repository you're looking
-                      for and the owner of that project
+                      Use this tool to see a dashboard of a team's work over the
+                      past week.
                     </Header>
+                    {errors.repoName && touched.repoName && (
+                      <div className="input-feedback">
+                        <Error>You must supply the name of the repo</Error>
+                      </div>
+                    )}
                     <Input
                       id="repoName"
                       placeholder="Name of the repo"
@@ -120,13 +125,16 @@ class Request extends React.Component {
                           : "text-input"
                       }
                     />
-                    {errors.repoName && touched.repoName && (
-                      <div className="input-feedback">
-                        <Error>{errors.repoName}</Error>
-                      </div>
-                    )}
                   </div>
                   <div>
+                    {errors.owner && touched.owner && (
+                      <div className="input-feedback">
+                        <Error>
+                          You must supply the name of the organization that owns
+                          this repo
+                        </Error>
+                      </div>
+                    )}{" "}
                     <Input
                       id="owner"
                       placeholder="Owner of the repository"
@@ -140,11 +148,6 @@ class Request extends React.Component {
                           : "text-input"
                       }
                     />
-                    {errors.owner && touched.owner && (
-                      <div className="input-feedback">
-                        <Error>{errors.owner}</Error>
-                      </div>
-                    )}{" "}
                   </div>
                 </div>
                 <Button
@@ -163,11 +166,13 @@ class Request extends React.Component {
           }}
         </Formik>
 
-        <ShowIssuesAndPullRequests
-          owner={this.state.owner}
-          name={this.state.repoName}
-          author="maecapozzi"
-        />
+        {this.state.owner && (
+          <ShowIssuesAndPullRequests
+            owner={this.state.owner}
+            name={this.state.repoName}
+            author="maecapozzi"
+          />
+        )}
       </ApolloProvider>
     );
   }

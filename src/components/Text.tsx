@@ -40,7 +40,7 @@ export const Label = styled("label")`
   font-size: 20px;
 `;
 
-export const Error = styled("span")`
+export const Error = styled("p")`
   color: #ffffff;
   font-size: 16px;
 `;
