@@ -34,6 +34,7 @@ export const GET_ISSUES_AND_PULL_REQUESTS = gql`
         edges {
           node {
             title
+            bodyHTML
             url
             labels(first: 5) {
               edges {

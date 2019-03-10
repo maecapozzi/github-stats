@@ -1,11 +1,11 @@
 import styled from "styled-components";
 
 export const H1 = styled("h1")`
-  color: #ffffff;
+  color: #e0e1dd;
   font-family: "Roboto";
 `;
 export const Header = styled("h2")`
-  color: #ffffff;
+  color: #e0e1dd;
   font-family: "Roboto";
   font-style: italic;
   text-align: center;
@@ -19,28 +19,28 @@ export const Header = styled("h2")`
 
 export const Text = styled("p")`
   font-family: "Roboto";
-  color: #1d1921;
+  color: #0d1b2a;
   font-size: 16px;
 `;
 
 export const Link = styled("a")`
   font-family: "Roboto";
-  color: #1d1921;
+  color: #2274a5;
   font-size: 16px;
 `;
 
 export const StyledList = styled("ul")`
   font-family: "Roboto";
-  color: #1d1921;
+  color: #0d1b2a;
   margin: 0px;
 `;
 
 export const Label = styled("label")`
-  color: #ffffff;
+  color: #3c474b;
   font-size: 20px;
 `;
 
 export const Error = styled("p")`
-  color: #ffffff;
+  color: #3c474b;
   font-size: 16px;
 `;

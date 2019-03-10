@@ -6,7 +6,7 @@ interface CardProps {
 }
 
 export const Card = styled("div")`
-  background-color: #ffffff;
+  background-color: #e0e1dd;
   font-family: "Roboto", sans-serif;
   padding: 30px;
   margin: 20px;

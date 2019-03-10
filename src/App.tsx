@@ -34,6 +34,7 @@ const client = new ApolloClient({
 });
 
 const StyledH1 = styled(H1)`
+  text-transform: uppercase;
   font-size: 50px;
   text-align: center;
   font-family: "Oswald";
@@ -41,16 +42,6 @@ const StyledH1 = styled(H1)`
   @media (min-width: 700px) {
     margin-top: 20px;
     font-size: 70px;
-  }
-`;
-
-const SubmitButton = styled(Button)`
-  background-color: #ffffff;
-  color: #1745d7;
-
-  &:hover {
-    background-color: #1745d7;
-    color: #ffffff;
   }
 `;
 
@@ -165,13 +156,9 @@ class Request extends React.Component {
                 >
                   Reset
                 </Button>
-                <SubmitButton
-                  type="submit"
-                  fontSize={20}
-                  disabled={isSubmitting}
-                >
+                <Button type="submit" fontSize={20} disabled={isSubmitting}>
                   Submit
-                </SubmitButton>
+                </Button>
               </Form>
             );
           }}

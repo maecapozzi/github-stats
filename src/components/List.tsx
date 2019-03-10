@@ -37,7 +37,9 @@ export const List: React.FunctionComponent<ListProps> = ({ items }) => {
                   mergedAt={item.node.mergedAt}
                   body={item.node.bodyHTML}
                 />
-              ) : null}
+              ) : (
+                <ShowCommits body={item.node.bodyHTML} />
+              )}
             </Card>
           </div>
         );
