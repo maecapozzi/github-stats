@@ -4,6 +4,9 @@ import { Text } from "../components/Text";
 import { Spinner } from "../components/Spinner";
 
 const SpinnerWrapper = styled("div")`
+  background-color: #1745d7;
+  height: 100%;
+  width: 100%;
   position: fixed;
   top: 50%;
   left: 50%;

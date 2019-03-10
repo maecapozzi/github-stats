@@ -34,3 +34,13 @@ export const StyledList = styled("ul")`
   color: #1d1921;
   margin: 0px;
 `;
+
+export const Label = styled("label")`
+  color: #ffffff;
+  font-size: 20px;
+`;
+
+export const Error = styled("span")`
+  color: #ffffff;
+  font-size: 16px;
+`;

@@ -41,7 +41,7 @@ export const ShowIssuesAndPullRequests: React.FunctionComponent<
               <div>
                 <Header>{`${
                   filteredPullRequests.length
-                } pull requests in the last ${DAYS_IN_THE_WEEK} days 🚀`}</Header>
+                } pull requests merged in the last ${DAYS_IN_THE_WEEK} days 🚀`}</Header>
                 <List items={filteredPullRequests} />
               </div>
             }
