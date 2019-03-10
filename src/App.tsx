@@ -34,22 +34,29 @@ const client = new ApolloClient({
 });
 
 const StyledH1 = styled(H1)`
-  font-size: 70px;
+  font-size: 50px;
   text-align: center;
   font-family: "Oswald";
 
   @media (min-width: 700px) {
-    padding: 20px 0 0 20px;
+    margin-top: 20px;
+    font-size: 70px;
   }
 `;
 
 const SubmitButton = styled(Button)`
   background-color: #ffffff;
   color: #1745d7;
+
+  &:hover {
+    background-color: #1745d7;
+    color: #ffffff;
+  }
 `;
 
 const Form = styled("form")`
   text-align: center;
+  padding: 20px;
 `;
 
 class Request extends React.Component {
@@ -66,6 +73,9 @@ class Request extends React.Component {
     return (
       <ApolloProvider client={client}>
         <StyledH1>{this.state.repoName} github report</StyledH1>
+        <Header>
+          Use this tool to see a dashboard of a team's work over the past week.
+        </Header>
         <Formik
           initialValues={{ owner: "", repoName: "" }}
           onSubmit={(values, { setSubmitting }) => {
@@ -103,10 +113,6 @@ class Request extends React.Component {
               >
                 <div>
                   <div>
-                    <Header>
-                      Use this tool to see a dashboard of a team's work over the
-                      past week.
-                    </Header>
                     {errors.repoName && touched.repoName && (
                       <div className="input-feedback">
                         <Error>You must supply the name of the repo</Error>
@@ -153,14 +159,19 @@ class Request extends React.Component {
                 <Button
                   type="button"
                   className="outline"
+                  fontSize={20}
                   onClick={handleReset}
                   disabled={!dirty || isSubmitting}
                 >
                   Reset
                 </Button>
-                <Button type="submit" disabled={isSubmitting}>
+                <SubmitButton
+                  type="submit"
+                  fontSize={20}
+                  disabled={isSubmitting}
+                >
                   Submit
-                </Button>
+                </SubmitButton>
               </Form>
             );
           }}

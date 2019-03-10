@@ -36,9 +36,9 @@ export const ShowCommits: React.FunctionComponent<Message> = ({
         This PR was merged {moment(mergedAt).fromNow()} on{" "}
         {moment(mergedAt, "YYYY-MM-DD").format("MMMM DD YYYY")}
       </StyledDate>
-      <Button onClick={toggle}>{`${
+      <Button onClick={toggle} fontSize={16}>{`${
         state === "off" ? "Show" : "Hide"
-      } pull request body`}</Button>
+      } details`}</Button>
       <Text
         style={{ display: `${state === "off" ? "none" : "inline"}` }}
         dangerouslySetInnerHTML={createMarkup(body || "")}

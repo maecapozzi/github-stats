@@ -10,9 +10,9 @@ export const Header = styled("h2")`
   font-style: italic;
   text-align: center;
   font-size: 20px;
+  padding: 10px;
 
   @media (min-width: 700px) {
-    padding: 20px;
     font-size: 30px;
   }
 `;
