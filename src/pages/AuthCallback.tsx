@@ -28,18 +28,28 @@ export class AuthCallback extends React.Component<
   }
 
   getAccessToken = () => {
-    const githubCode = window.location.href
-      .substring(1)
-      .split("code=")[1]
-      .split("&")[0];
+    const doesCodeExist = (href: string) => {
+      if (href.includes("code=")) {
+        return true;
+      }
+    };
 
-    axios
-      .get(`${process.env.REACT_APP_API_URI}/access-token?code=${githubCode}`)
-      .then(response => {
-        const { accessToken } = response.data;
-        localStorage.setItem("accessToken", accessToken);
-        this.setState({ isAuthenticated: true });
-      });
+    const githubCode =
+      doesCodeExist(window.location.href) &&
+      window.location.href
+        .substring(1)
+        .split("code=")[1]
+        .split("&")[0];
+
+    doesCodeExist(window.location.href) &&
+      axios
+        .get(`${process.env.REACT_APP_API_URI}/access-token?code=${githubCode}`)
+        .then(response => {
+          const { accessToken } = response.data;
+          localStorage.setItem("accessToken", accessToken);
+          this.setState({ isAuthenticated: true });
+        })
+        .catch(err => console.log(err));
   };
 
   render() {
