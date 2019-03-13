@@ -1,9 +1,26 @@
 import styled from "styled-components";
 
+interface LinkProps {
+  fontSize?: number;
+}
+
 export const H1 = styled("h1")`
   color: #e0e1dd;
   font-family: "Roboto";
 `;
+
+export const StyledH1 = styled(H1)`
+  text-transform: uppercase;
+  font-size: 50px;
+  text-align: center;
+  font-family: "Oswald";
+
+  @media (min-width: 700px) {
+    margin-top: 20px;
+    font-size: 70px;
+  }
+`;
+
 export const Header = styled("h2")`
   color: #e0e1dd;
   font-family: "Roboto";
@@ -23,10 +40,10 @@ export const Text = styled("p")`
   font-size: 16px;
 `;
 
-export const Link = styled("a")`
+export const Link = styled("a")<LinkProps>`
   font-family: "Roboto";
   color: #2274a5;
-  font-size: 16px;
+  font-size: ${props => `${props.fontSize}px` || "16px"};
 `;
 
 export const StyledList = styled("ul")`

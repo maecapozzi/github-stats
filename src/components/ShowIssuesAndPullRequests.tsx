@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import axios from "axios";
 import { Query } from "react-apollo";
 import { Fetching, Error } from "../data-fetching";
 import { GET_ISSUES_AND_PULL_REQUESTS } from "../queries";
@@ -10,18 +11,19 @@ import { Header, H1 } from "./Text";
 
 const DAYS_IN_THE_WEEK = 7;
 
+type AppProps = {};
+
 type Permissions = {
   owner: string;
   name: string;
-  author: string;
 };
 
 export const ShowIssuesAndPullRequests: React.FunctionComponent<
   Permissions
-> = ({ owner, name, author }) => (
+> = ({ owner, name }) => (
   <Query
     query={GET_ISSUES_AND_PULL_REQUESTS}
-    variables={{ owner: owner, name: name, author: author }}
+    variables={{ owner: owner, name: name }}
   >
     {({ loading, error, data }) => {
       if (error) return <Error />;
