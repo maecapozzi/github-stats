@@ -54,6 +54,7 @@ export class AuthCallback extends React.Component<
 
   render() {
     if (!this.state.isAuthenticated) {
+      console.log("hi");
       return <Header>Loading...</Header>;
     } else {
       return (
