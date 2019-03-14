@@ -11,54 +11,74 @@ import { Header, H1 } from "./Text";
 
 const DAYS_IN_THE_WEEK = 7;
 
-type AppProps = {};
+type AppState = {
+  owner: string;
+  name: string;
+};
 
 type Permissions = {
   owner: string;
   name: string;
 };
 
-export const ShowIssuesAndPullRequests: React.FunctionComponent<
+export class ShowIssuesAndPullRequests extends React.Component<
+  AppState,
   Permissions
-> = ({ owner, name }) => (
-  <Query
-    query={GET_ISSUES_AND_PULL_REQUESTS}
-    variables={{ owner: owner, name: name }}
-  >
-    {({ loading, error, data }) => {
-      if (error) return <Error />;
-      if (loading || !data) return <Fetching />;
+> {
+  state = {
+    owner: "",
+    name: ""
+  };
 
-      const filteredPullRequests = filterPullRequestsByDate(
-        data.repository.pullRequests.edges,
-        DAYS_IN_THE_WEEK
-      );
+  render() {
+    return (
+      <Query
+        query={GET_ISSUES_AND_PULL_REQUESTS}
+        variables={{
+          owner: this.props.owner,
+          name: this.props.name
+        }}
+        errorPolicy="ignore"
+      >
+        {({ loading, error, data, refetch }) => {
+          if (error || !data.repository) {
+            return <Error />;
+          }
+          if (loading || !data) {
+            return <Fetching />;
+          }
 
-      const issues = data.repository.issues.edges;
+          const filteredPullRequests = filterPullRequestsByDate(
+            data.repository.pullRequests.edges,
+            DAYS_IN_THE_WEEK
+          );
 
-      return (
-        <div>
-          <Grid
-            column1={
-              <div>
-                <Header>{`${
-                  filteredPullRequests.length
-                } pull requests merged in the last ${DAYS_IN_THE_WEEK} days 🚀`}</Header>
-                <List items={filteredPullRequests} />
-              </div>
-            }
-            column2={
-              <div>
-                <Header>{`${
-                  data.repository.issues.edges.length
-                } closed issues in the last ${DAYS_IN_THE_WEEK} days`}</Header>
-                <List items={issues} />
-              </div>
-            }
-            column3={<div>Reviewer Leaderboard</div>}
-          />
-        </div>
-      );
-    }}
-  </Query>
-);
+          const issues = data.repository.issues.edges;
+          return (
+            <div>
+              <Grid
+                column1={
+                  <div>
+                    <Header>{`${
+                      filteredPullRequests.length
+                    } pull requests merged in the last ${DAYS_IN_THE_WEEK} days 🚀`}</Header>
+                    <List items={filteredPullRequests} />
+                  </div>
+                }
+                column2={
+                  <div>
+                    <Header>{`${
+                      issues.length
+                    } closed issues in the last ${DAYS_IN_THE_WEEK} days`}</Header>
+                    <List items={issues} />
+                  </div>
+                }
+                column3={<div>Reviewer Leaderboard</div>}
+              />
+            </div>
+          );
+        }}
+      </Query>
+    );
+  }
+}

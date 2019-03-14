@@ -58,6 +58,7 @@ export const Label = styled("label")`
 `;
 
 export const Error = styled("p")`
-  color: #3c474b;
+  font-family: "Roboto";
+  color: #e0e1dd;
   font-size: 16px;
 `;

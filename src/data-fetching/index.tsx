@@ -15,7 +15,7 @@ const SpinnerWrapper = styled("div")`
 
 const StyledError = styled("h3")`
   text-align: center;
-  color: #3c474b;
+  color: #e0e1dd;
   font-size: 25px;
 `;
 
