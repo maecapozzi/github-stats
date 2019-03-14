@@ -41,42 +41,47 @@ export class ShowIssuesAndPullRequests extends React.Component<
         errorPolicy="ignore"
       >
         {({ loading, error, data, refetch }) => {
-          if (error || !data.repository) {
+          if (error) {
             return <Error />;
           }
-          if (loading || !data) {
+
+          if (loading) {
             return <Fetching />;
           }
 
-          const filteredPullRequests = filterPullRequestsByDate(
-            data.repository.pullRequests.edges,
-            DAYS_IN_THE_WEEK
-          );
+          if (data && data.repository) {
+            const filteredPullRequests = filterPullRequestsByDate(
+              data.repository.pullRequests.edges,
+              DAYS_IN_THE_WEEK
+            );
 
-          const issues = data.repository.issues.edges;
-          return (
-            <div>
-              <Grid
-                column1={
-                  <div>
-                    <Header>{`${
-                      filteredPullRequests.length
-                    } pull requests merged in the last ${DAYS_IN_THE_WEEK} days 🚀`}</Header>
-                    <List items={filteredPullRequests} />
-                  </div>
-                }
-                column2={
-                  <div>
-                    <Header>{`${
-                      issues.length
-                    } closed issues in the last ${DAYS_IN_THE_WEEK} days`}</Header>
-                    <List items={issues} />
-                  </div>
-                }
-                column3={<div>Reviewer Leaderboard</div>}
-              />
-            </div>
-          );
+            const issues = data.repository.issues.edges;
+            return (
+              <div>
+                <Grid
+                  column1={
+                    <div>
+                      <Header>{`${
+                        filteredPullRequests.length
+                      } pull requests merged in the last ${DAYS_IN_THE_WEEK} days 🚀`}</Header>
+                      <List items={filteredPullRequests} />
+                    </div>
+                  }
+                  column2={
+                    <div>
+                      <Header>{`${
+                        issues.length
+                      } closed issues in the last ${DAYS_IN_THE_WEEK} days`}</Header>
+                      <List items={issues} />
+                    </div>
+                  }
+                  column3={<div>Reviewer Leaderboard</div>}
+                />
+              </div>
+            );
+          } else {
+            return <Error />;
+          }
         }}
       </Query>
     );
