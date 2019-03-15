@@ -2,6 +2,7 @@ import React from "react";
 import axios from "axios";
 import { Redirect, Link, navigate } from "@reach/router";
 import { Header } from "../components/Text";
+import { AuthContext } from "../contexts/AuthContext";
 
 interface AuthCallbackProps {
   path: string;
@@ -15,6 +16,8 @@ export class AuthCallback extends React.Component<
   AuthCallbackProps,
   AuthCallbackState
 > {
+  static contextType = AuthContext;
+
   state = {
     isAuthenticated: false
   };
@@ -48,19 +51,25 @@ export class AuthCallback extends React.Component<
           const { accessToken } = response.data;
           localStorage.setItem("accessToken", accessToken);
           this.setState({ isAuthenticated: true });
+          this.context.update(true);
         })
         .catch(err => console.log(err));
   };
 
   render() {
     if (!this.state.isAuthenticated) {
-      console.log("hi");
       return <Header>Loading...</Header>;
     } else {
       return (
         <div>
-          <Header>Redirecting you...</Header>
-          {this.redirectToDashboard()}
+          <AuthContext.Consumer>
+            {({ isLoggedIn, update }) => (
+              <div>
+                <Header>Redirecting you...</Header>
+                {this.redirectToDashboard()}
+              </div>
+            )}
+          </AuthContext.Consumer>
         </div>
       );
     }

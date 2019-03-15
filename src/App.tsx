@@ -4,6 +4,8 @@ import * as Yup from "yup";
 import gql from "graphql-tag";
 import { Router } from "@reach/router";
 import { Dashboard, AuthCallback, Homepage } from "./pages";
+import { AuthContext } from "./contexts/AuthContext";
+import { PrivateRoute } from "./components/PrivateRoute";
 
 interface Page {
   path: string;
@@ -12,14 +14,28 @@ interface Page {
 const Logout: React.FunctionComponent<Page> = () => <div>Logout</div>;
 
 class App extends Component {
+  state = {
+    isLoggedIn: false
+  };
+
+  updateContext = (isLoggedIn: boolean) => {
+    this.setState({ isLoggedIn });
+  };
   render() {
     return (
-      <Router>
-        <Logout path="logout" />
-        <Homepage path="/" />
-        <Dashboard path="dashboard" />
-        <AuthCallback path="/auth/github/callback" />
-      </Router>
+      <AuthContext.Provider
+        value={{
+          isLoggedIn: this.state.isLoggedIn,
+          update: this.updateContext
+        }}
+      >
+        <Router>
+          <Logout path="logout" />
+          <Homepage path="/" />
+          <PrivateRoute as={Dashboard} path="/dashboard" />
+          <AuthCallback path="/auth/github/callback" />
+        </Router>
+      </AuthContext.Provider>
     );
   }
 }
