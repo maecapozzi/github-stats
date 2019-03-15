@@ -6,16 +6,26 @@ import { Router } from "@reach/router";
 import { Dashboard, AuthCallback, Homepage } from "./pages";
 import { AuthContext } from "./contexts/AuthContext";
 import { PrivateRoute } from "./components/PrivateRoute";
+import { Link, Header } from "./components/Text";
+import { Nav } from "./components/Nav";
 
 interface Page {
   path: string;
 }
 
-const Logout: React.FunctionComponent<Page> = () => <div>Logout</div>;
+const isLoggedIn = () => {
+  return !!localStorage.getItem("authToken");
+};
+
+const Logout: React.FunctionComponent<Page> = ({ path }) => (
+  <Header>You have successfully logged out</Header>
+);
 
 class App extends Component {
+  static contextType = AuthContext;
+
   state = {
-    isLoggedIn: false
+    isLoggedIn: isLoggedIn()
   };
 
   updateContext = (isLoggedIn: boolean) => {
@@ -29,9 +39,10 @@ class App extends Component {
           update: this.updateContext
         }}
       >
+        <Nav />
         <Router>
-          <Logout path="logout" />
           <Homepage path="/" />
+          <Logout path="/logout" />
           <PrivateRoute as={Dashboard} path="/dashboard" />
           <AuthCallback path="/auth/github/callback" />
         </Router>
