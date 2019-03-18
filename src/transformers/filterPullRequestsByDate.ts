@@ -1,12 +1,16 @@
 import moment from "moment";
 
-type PullRequest = {
+interface PullRequest {
   node: {
     title: string;
+    bodyHTML: string;
     url: string;
     mergedAt: string;
+    mergeCommit: {
+      id: string;
+    };
   };
-};
+}
 
 export const getMergedAt = (date: string) => {
   return moment(date, "YYYYMMDD");

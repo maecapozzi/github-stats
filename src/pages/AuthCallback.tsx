@@ -48,10 +48,11 @@ export class AuthCallback extends React.Component<
       axios
         .get(`${process.env.REACT_APP_API_URI}/access-token?code=${githubCode}`)
         .then(response => {
-          const { accessToken } = response.data;
-          localStorage.setItem("accessToken", accessToken);
-          this.setState({ isAuthenticated: true });
-          this.context.update(true);
+          if (response.data.isLoggedIn) {
+            this.setState({ isAuthenticated: true });
+            localStorage.setItem("isLoggedIn", "is-logged-in");
+            this.context.update(true);
+          }
         })
         .catch(err => console.log(err));
   };

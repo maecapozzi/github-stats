@@ -1,11 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
 import * as Yup from "yup";
-import { ApolloProvider } from "react-apollo";
-import { ApolloClient } from "apollo-client";
-import { createHttpLink } from "apollo-link-http";
-import { InMemoryCache } from "apollo-cache-inmemory";
-import { setContext } from "apollo-link-context";
 import { ShowIssuesAndPullRequests } from "../components";
 import { Formik } from "formik";
 import { H1, Label, Header, Error } from "../components/Text";
@@ -14,27 +9,6 @@ import { Button } from "../components/Button";
 import styled from "styled-components";
 import { Router } from "@reach/router";
 import { StyledH1 } from "../components/Text";
-
-const httpLink = createHttpLink({
-  uri: "https://api.github.com/graphql"
-});
-
-const authLink = setContext((_, { headers }) => {
-  const token = localStorage.getItem("accessToken");
-
-  // return the headers to the context so httpLink can read them
-  return {
-    headers: {
-      ...headers,
-      authorization: token ? `Bearer ${token}` : ""
-    }
-  };
-});
-
-const client = new ApolloClient({
-  link: authLink.concat(httpLink),
-  cache: new InMemoryCache()
-});
 
 const Form = styled("form")`
   text-align: center;
@@ -48,7 +22,9 @@ interface Page {
 export class Dashboard extends React.Component<Page> {
   state = {
     owner: "",
-    repoName: ""
+    repoName: "",
+    pullRequests: [],
+    issues: []
   };
 
   handleChange = (e: React.FormEvent<HTMLInputElement>): void => {
@@ -57,7 +33,7 @@ export class Dashboard extends React.Component<Page> {
 
   render() {
     return (
-      <ApolloProvider client={client}>
+      <div>
         <StyledH1>{this.state.repoName} github report</StyledH1>
         <Header>
           Use this tool to see a dashboard of a team's work over the past week.
@@ -91,10 +67,27 @@ export class Dashboard extends React.Component<Page> {
               <Form
                 onSubmit={e => {
                   e.preventDefault();
+                  const { owner, repoName } = values;
                   this.setState({
-                    owner: values.owner,
-                    repoName: values.repoName
+                    owner: owner,
+                    repoName: repoName
                   });
+
+                  axios
+                    .get(`${process.env.REACT_APP_API_URI}/pullRequests`, {
+                      params: {
+                        owner: owner,
+                        repoName: repoName
+                      }
+                    })
+                    .then(response => {
+                      const { pullRequests, issues } = response.data;
+                      this.setState({
+                        pullRequests: pullRequests.edges,
+                        issues: issues.edges
+                      });
+                    })
+                    .catch(err => console.log(err));
                 }}
               >
                 <div>
@@ -159,13 +152,14 @@ export class Dashboard extends React.Component<Page> {
           }}
         </Formik>
 
-        {this.state.owner && (
+        {(this.state.pullRequests.length > 0 ||
+          this.state.issues.length > 0) && (
           <ShowIssuesAndPullRequests
-            owner={this.state.owner}
-            name={this.state.repoName}
+            pullRequests={this.state.pullRequests}
+            issues={this.state.issues}
           />
         )}
-      </ApolloProvider>
+      </div>
     );
   }
 }

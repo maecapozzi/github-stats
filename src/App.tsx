@@ -14,7 +14,7 @@ interface Page {
 }
 
 const isLoggedIn = () => {
-  return !!localStorage.getItem("authToken");
+  return localStorage.getItem("isLoggedIn") === "is-logged-in";
 };
 
 const Logout: React.FunctionComponent<Page> = ({ path }) => (

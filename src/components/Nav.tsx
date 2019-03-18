@@ -26,7 +26,7 @@ export const Nav = () => (
                 <NavLink
                   to="/logout"
                   onClick={() => {
-                    localStorage.removeItem("authToken");
+                    localStorage.removeItem("isLoggedIn");
                     update(false);
                   }}
                 >
