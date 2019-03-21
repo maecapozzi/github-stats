@@ -6,7 +6,10 @@ import { Fetching, Error } from "../data-fetching";
 import { GET_ISSUES_AND_PULL_REQUESTS } from "../queries";
 import { List } from ".";
 import { Grid } from ".";
-import { filterPullRequestsByDate } from "../transformers/filterPullRequestsByDate";
+import {
+  filterPullRequestsByDate,
+  filterIssuesByDate
+} from "../transformers/filterPullRequestsByDate";
 import { Header, H1 } from "./Text";
 
 const DAYS_IN_THE_WEEK = 7;
@@ -25,9 +28,18 @@ interface PullRequest {
   };
 }
 
+interface Issue {
+  node: {
+    bodyHTML: string;
+    closedAt: string;
+    title: string;
+    url: string;
+  };
+}
+
 type Permissions = {
   pullRequests: Array<PullRequest>;
-  issues: Array<PullRequest>;
+  issues: Array<Issue>;
 };
 
 export class ShowIssuesAndPullRequests extends React.Component<
@@ -40,7 +52,8 @@ export class ShowIssuesAndPullRequests extends React.Component<
       7
     );
 
-    const issues = this.props.issues;
+    const issues = filterIssuesByDate(this.props.issues, 7);
+
     return (
       <div>
         <Grid

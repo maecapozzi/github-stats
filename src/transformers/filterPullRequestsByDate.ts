@@ -12,6 +12,15 @@ interface PullRequest {
   };
 }
 
+interface Issue {
+  node: {
+    title: string;
+    bodyHTML: string;
+    url: string;
+    closedAt: string;
+  };
+}
+
 export const getMergedAt = (date: string) => {
   return moment(date, "YYYYMMDD");
 };
@@ -28,4 +37,18 @@ export const filterPullRequestsByDate = (
   });
 
   return filteredPullRequests;
+};
+
+export const filterIssuesByDate = (
+  issues: Array<Issue>,
+  numberOfDays: number
+) => {
+  const filteredIssues = issues.filter(issue => {
+    return (
+      moment().diff(getMergedAt(issue.node.closedAt), "days") < numberOfDays &&
+      issue
+    );
+  });
+
+  return filteredIssues;
 };

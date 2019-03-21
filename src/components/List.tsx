@@ -8,7 +8,7 @@ type ListProps = {
     node: {
       title: string;
       url: string;
-      mergedAt: string;
+      mergedAt?: string;
     };
   }[];
 };
@@ -17,7 +17,8 @@ type Item = {
   node: {
     title: string;
     url: string;
-    mergedAt: string;
+    closedAt?: string;
+    mergedAt?: string;
     bodyHTML?: string;
   };
 };
@@ -38,7 +39,10 @@ export const List: React.FunctionComponent<ListProps> = ({ items }) => {
                   body={item.node.bodyHTML}
                 />
               ) : (
-                <ShowCommits body={item.node.bodyHTML} />
+                <ShowCommits
+                  mergedAt={item.node.closedAt}
+                  body={item.node.bodyHTML}
+                />
               )}
             </Card>
           </div>

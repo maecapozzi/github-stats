@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 import moment from "moment";
-import { getMergedAt } from "../transformers/filterPullRequestsByDate";
 import { Text } from "./Text";
 import { Button } from "./Button";
 import { useToggle } from "./hooks/useToggle";
