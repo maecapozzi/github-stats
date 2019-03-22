@@ -10,14 +10,14 @@ const StyledDate = styled(Text)`
   padding: 0 0 20px 0;
 `;
 
-type Message = {
+interface Message {
   mergedAt?: string;
   body?: string;
-};
+}
 
-type ToggleProps = {
+interface ToggleProps {
   children: React.ReactNode;
-};
+}
 
 function createMarkup(html: string) {
   return { __html: html };

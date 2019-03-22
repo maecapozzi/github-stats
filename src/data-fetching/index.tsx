@@ -20,7 +20,7 @@ const StyledError = styled("h3")`
 `;
 
 export const Error: React.FunctionComponent = () => (
-  <StyledError>Sorry, we weren't able to find that project!</StyledError>
+  <StyledError>{"Sorry, we weren't able to find that project!"}</StyledError>
 );
 export const Fetching: React.FunctionComponent = () => (
   <SpinnerWrapper>

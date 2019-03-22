@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "axios";
-import { Redirect, Link, navigate } from "@reach/router";
+import { navigate } from "@reach/router";
 import { Header } from "../components/Text";
 import { AuthContext } from "../contexts/AuthContext";
 
@@ -62,16 +62,10 @@ export class AuthCallback extends React.Component<
       return <Header>Loading...</Header>;
     } else {
       return (
-        <div>
-          <AuthContext.Consumer>
-            {({ isLoggedIn, update }) => (
-              <div>
-                <Header>Redirecting you...</Header>
-                {this.redirectToDashboard()}
-              </div>
-            )}
-          </AuthContext.Consumer>
-        </div>
+        <>
+          <Header>Redirecting you...</Header>
+          {this.redirectToDashboard()}
+        </>
       );
     }
   }

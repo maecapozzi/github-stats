@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 
 interface CardProps {
@@ -10,8 +9,8 @@ export const Card = styled("div")`
   font-family: "Roboto", sans-serif;
   padding: 30px;
   margin: 20px;
-  box-shadow: ${props =>
-    `0px 1px 3px 0px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 2px 1px -1px rgba(0,0,0,0.12)`};
+  box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2),
+    0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12);
 `;
 
 export const CardHeader = styled("h3")`
