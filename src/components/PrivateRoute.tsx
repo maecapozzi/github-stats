@@ -2,8 +2,11 @@ import React from "react";
 import { AuthContext } from "../contexts/AuthContext";
 import { Homepage } from "../pages/Homepage";
 
+interface Props {
+  path: string;
+}
 interface PrivateProps {
-  as: React.ComponentClass<any> | React.StatelessComponent<any>;
+  as: React.ComponentType<Props>;
   path: string;
 }
 

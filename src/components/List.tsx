@@ -1,9 +1,9 @@
 import React from "react";
 import { ShowCommits } from ".";
-import { Link, StyledList } from "./Text";
+import { Link } from "./Text";
 import { Card } from "./Card";
 
-type ListProps = {
+interface ListProps {
   items: {
     node: {
       title: string;
@@ -11,9 +11,9 @@ type ListProps = {
       mergedAt?: string;
     };
   }[];
-};
+}
 
-type Item = {
+interface Item {
   node: {
     title: string;
     url: string;
@@ -21,7 +21,7 @@ type Item = {
     mergedAt?: string;
     bodyHTML?: string;
   };
-};
+}
 
 export const List: React.FunctionComponent<ListProps> = ({ items }) => {
   return (

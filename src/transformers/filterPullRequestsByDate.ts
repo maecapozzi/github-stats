@@ -26,7 +26,7 @@ export const getMergedAt = (date: string) => {
 };
 
 export const filterPullRequestsByDate = (
-  pullRequests: Array<PullRequest>,
+  pullRequests: PullRequest[],
   numberOfDays: number
 ) => {
   const filteredPullRequests = pullRequests.filter(pullRequest => {
@@ -39,10 +39,7 @@ export const filterPullRequestsByDate = (
   return filteredPullRequests;
 };
 
-export const filterIssuesByDate = (
-  issues: Array<Issue>,
-  numberOfDays: number
-) => {
+export const filterIssuesByDate = (issues: Issue[], numberOfDays: number) => {
   const filteredIssues = issues.filter(issue => {
     return (
       moment().diff(getMergedAt(issue.node.closedAt), "days") < numberOfDays &&

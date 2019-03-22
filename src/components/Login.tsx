@@ -1,9 +1,6 @@
 import React from "react";
 import axios from "axios";
 import styled from "styled-components";
-import { Link } from "../components/Text";
-
-interface LoginProps {}
 
 interface LoginState {
   url: string;
@@ -24,7 +21,7 @@ const LoginLink = styled("a")`
   }
 `;
 
-export class Login extends React.Component<LoginProps, LoginState> {
+export class Login extends React.Component<{}, LoginState> {
   state = {
     url: ""
   };

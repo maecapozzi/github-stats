@@ -1,13 +1,12 @@
-import React, { Component } from "react";
+import React from "react";
 import axios from "axios";
 import * as Yup from "yup";
 import { ShowIssuesAndPullRequests } from "../components";
 import { Formik } from "formik";
-import { H1, Label, Header, Error } from "../components/Text";
+import { Header, Error } from "../components/Text";
 import { Input } from "../components/Input";
 import { Button } from "../components/Button";
 import styled from "styled-components";
-import { Router } from "@reach/router";
 import { StyledH1 } from "../components/Text";
 
 const Form = styled("form")`
@@ -36,7 +35,9 @@ export class Dashboard extends React.Component<Page> {
       <div>
         <StyledH1>{this.state.repoName} github report</StyledH1>
         <Header>
-          Use this tool to see a dashboard of a team's work over the past week.
+          {
+            "Use this tool to see a dashboard of a team's work over the past week."
+          }
         </Header>
         <Formik
           initialValues={{ owner: "", repoName: "" }}
@@ -60,7 +61,6 @@ export class Dashboard extends React.Component<Page> {
               isSubmitting,
               handleChange,
               handleBlur,
-              handleSubmit,
               handleReset
             } = props;
             return (
@@ -94,7 +94,7 @@ export class Dashboard extends React.Component<Page> {
                   <div>
                     {errors.repoName && touched.repoName && (
                       <div className="input-feedback">
-                        <Error>You must supply the name of the repo</Error>
+                        <Error>{"You must supply the name of the repo"}</Error>
                       </div>
                     )}
                     <Input
@@ -115,11 +115,12 @@ export class Dashboard extends React.Component<Page> {
                     {errors.owner && touched.owner && (
                       <div className="input-feedback">
                         <Error>
-                          You must supply the name of the organization that owns
-                          this repo
+                          {
+                            "You must supply the name of the organization that owns this repo"
+                          }
                         </Error>
                       </div>
-                    )}{" "}
+                    )}
                     <Input
                       id="owner"
                       placeholder="Owner of the repository"

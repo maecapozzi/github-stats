@@ -1,12 +1,9 @@
 import React, { Component } from "react";
-import axios from "axios";
-import * as Yup from "yup";
-import gql from "graphql-tag";
 import { Router } from "@reach/router";
 import { Dashboard, AuthCallback, Homepage } from "./pages";
 import { AuthContext } from "./contexts/AuthContext";
 import { PrivateRoute } from "./components/PrivateRoute";
-import { Link, Header } from "./components/Text";
+import { Header } from "./components/Text";
 import { Nav } from "./components/Nav";
 
 interface Page {
@@ -17,7 +14,7 @@ const isLoggedIn = () => {
   return localStorage.getItem("isLoggedIn") === "is-logged-in";
 };
 
-const Logout: React.FunctionComponent<Page> = ({ path }) => (
+const Logout: React.FunctionComponent<Page> = () => (
   <Header>You have successfully logged out</Header>
 );
 
