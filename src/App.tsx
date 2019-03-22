@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import axios from "axios";
 import { Router } from "@reach/router";
 import { Dashboard, AuthCallback, Homepage } from "./pages";
 import { AuthContext } from "./contexts/AuthContext";
@@ -14,9 +15,16 @@ const isLoggedIn = () => {
   return localStorage.getItem("isLoggedIn") === "is-logged-in";
 };
 
-const Logout: React.FunctionComponent<Page> = () => (
-  <Header>You have successfully logged out</Header>
-);
+class Logout extends React.Component<Page> {
+  componentDidMount() {
+    axios
+      .get(`${process.env.REACT_APP_API_URI}/logout`)
+      .then(response => console.log(response));
+  }
+  render() {
+    return <Header>You have successfully logged out</Header>;
+  }
+}
 
 class App extends Component {
   static contextType = AuthContext;

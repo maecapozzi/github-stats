@@ -3,11 +3,10 @@ import axios from "axios";
 import * as Yup from "yup";
 import { ShowIssuesAndPullRequests } from "../components";
 import { Formik } from "formik";
-import { Header, Error } from "../components/Text";
+import { StyledH1, Header, Error } from "../components/Text";
 import { Input } from "../components/Input";
 import { Button } from "../components/Button";
 import styled from "styled-components";
-import { StyledH1 } from "../components/Text";
 
 const Form = styled("form")`
   text-align: center;
@@ -23,14 +22,16 @@ export class Dashboard extends React.Component<Page> {
     owner: "",
     repoName: "",
     pullRequests: [],
-    issues: []
+    issues: [],
+    touched: false,
+    error: ""
   };
 
   handleChange = (e: React.FormEvent<HTMLInputElement>): void => {
     this.setState({ [e.currentTarget.name]: e.currentTarget.value });
   };
 
-  render() {
+  renderForm = () => {
     return (
       <div>
         <StyledH1>{this.state.repoName} github report</StyledH1>
@@ -39,13 +40,11 @@ export class Dashboard extends React.Component<Page> {
             "Use this tool to see a dashboard of a team's work over the past week."
           }
         </Header>
+
         <Formik
           initialValues={{ owner: "", repoName: "" }}
           onSubmit={(values, { setSubmitting }) => {
-            setTimeout(() => {
-              alert(JSON.stringify(values, null, 2));
-              setSubmitting(false);
-            }, 500);
+            setSubmitting(false);
           }}
           validationSchema={Yup.object().shape({
             owner: Yup.string().required("Required"),
@@ -68,9 +67,11 @@ export class Dashboard extends React.Component<Page> {
                 onSubmit={e => {
                   e.preventDefault();
                   const { owner, repoName } = values;
+
                   this.setState({
                     owner: owner,
-                    repoName: repoName
+                    repoName: repoName,
+                    touched: true
                   });
 
                   axios
@@ -81,13 +82,18 @@ export class Dashboard extends React.Component<Page> {
                       }
                     })
                     .then(response => {
+                      console.log(response.data);
                       const { pullRequests, issues } = response.data;
                       this.setState({
                         pullRequests: pullRequests.edges,
                         issues: issues.edges
                       });
                     })
-                    .catch(err => console.log(err));
+                    .catch(err => {
+                      this.setState({
+                        error: err.response.data.message
+                      });
+                    });
                 }}
               >
                 <div>
@@ -152,15 +158,30 @@ export class Dashboard extends React.Component<Page> {
             );
           }}
         </Formik>
-
-        {(this.state.pullRequests.length > 0 ||
-          this.state.issues.length > 0) && (
-          <ShowIssuesAndPullRequests
-            pullRequests={this.state.pullRequests}
-            issues={this.state.issues}
-          />
-        )}
       </div>
     );
+  };
+
+  render() {
+    if (this.state.error) {
+      return (
+        <div>
+          {this.renderForm()}
+          <Header>{this.state.error}</Header>
+        </div>
+      );
+    } else {
+      return (
+        <div>
+          {this.renderForm()}
+          {this.state.touched && (
+            <ShowIssuesAndPullRequests
+              pullRequests={this.state.pullRequests}
+              issues={this.state.issues}
+            />
+          )}
+        </div>
+      );
+    }
   }
 }
